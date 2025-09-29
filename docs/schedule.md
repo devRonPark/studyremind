@@ -41,8 +41,8 @@
   - `.env.example`
   - `docker-compose.yml`
   - `requirements.txt` (backend/frontend)
-- [ ] 노션 export 샘플 확보 (`.md` or `.csv`)
-- [ ] 데이터 구조 정의 (`page_id, title, content, tags, url, content_type, language`)
+- [x] 노션 export 샘플 확보 (`.md` or `.csv`)
+- [x] 데이터 구조 정의 (`page_id, title, content, tags, url, content_type, language`)
 - [ ] ERD 다이어그램 초안 작성
 
 #### 산출물
