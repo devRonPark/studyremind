@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: studyremind-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - NOTION_API_TOKEN=${NOTION_API_TOKEN}
+      - DATABASE_URL=${DATABASE_URL}
+      - VECTOR_DB_PATH=/app/data/vector_db
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+      - ./shared:/app/shared
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - studyremind-network
+    depends_on:
+      - vector-db-init
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: studyremind-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    volumes:
+      - ./frontend:/app
+      - ./shared:/app/shared
+    command: streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+    networks:
+      - studyremind-network
+    depends_on:
+      - backend
+
+  vector-db-init:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: studyremind-vector-init
+    volumes:
+      - ./data:/app/data
+      - ./scripts:/app/scripts
+    environment:
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - VECTOR_DB_PATH=/app/data/vector_db
+    command: python scripts/build_vector_store.py
+    networks:
+      - studyremind-network
+
+networks:
+  studyremind-network:
+    driver: bridge
+
+volumes:
+  data:
