@@ -43,7 +43,7 @@
   - `requirements.txt` (backend/frontend)
 - [x] 노션 export 샘플 확보 (`.md` or `.csv`)
 - [x] 데이터 구조 정의 (`page_id, title, content, tags, url, content_type, language`)
-- [ ] ERD 다이어그램 초안 작성
+- [x] ERD 다이어그램 초안 작성
 
 #### 산출물
 
@@ -59,10 +59,11 @@
 
 #### 체크리스트
 
-- [ ] `scripts/load_notion.py` 작성
+- [x] `scripts/load_notion.py` 작성
   - Notion export 파일 파싱
   - Markdown → JSON 변환
   - 코드 블록 추출 (`extract_code_blocks()`)
+  - 테스트 코드 작성 및 실행
 - [ ] `backend/app/utils/text_splitter.py` 구현
   - 문서 chunk 분리 (500 tokens, overlap 50)
   - 코드 블록은 분리하지 않고 통째로 저장
